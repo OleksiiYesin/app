@@ -1,16 +1,23 @@
 #!groovy
 pipeline {
     agent {
-        label "dynamic_slave"
+        label "static_slave"
     }
     stages {
+        
+        stage('hello') {
+            steps {
+              echo "Hello!"
+            }
+        }
 
-        stage( ' Example ' ) {
-        if  (env.BRANCH_NAME == ' feature ' ) {
-            sh 'cat test.txt'
-        } else  {
-            echo ' This is branch not feature '
+        stage('cat README') {
+            when {
+                branch "feature"
+            }
+            steps {
+                sh 'cat README.md'
+            }
         }
-        }
-    }
+    } 
 }
