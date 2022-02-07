@@ -1,89 +1,16 @@
 #!groovy
 pipeline {
     agent {
-        label "dev"
-    }
-    tools {
-        terraform 'terraform'
+        label "dynamic_slave"
     }
     stages {
 
-        stage("ansible playbook") {
-            agent {
-                label "dev"
-            }
-            steps {
-                echo " ============== Configure agent-server =================="
-                ansiblePlaybook credentialsId: 'ssh-key-oregon', disableHostKeyChecking: true, installation: 'ansible2', inventory: 'ansible/inventory', playbook: 'ansible/agent.yml'
-            }
+        stage( ' Example ' ) {
+        if  (env.BRANCH_NAME == ' feature ' ) {
+            sh 'cat test.txt'
+        } else  {
+            echo ' This is branch not feature '
         }
-
-        stage("docker login") {
-            agent {
-                label "dev"
-            }
-            steps {
-                echo " ============== Docker login =================="
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-key', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                	sh 'docker login -u $USERNAME -p $PASSWORD'
-                }
-            }
         }
-
-        stage("create docker image") {
-            agent {
-                label "dev"
-            }
-            steps {
-                echo " ============== Start building image =================="
-                dir ('.') {
-                	sh 'docker build -t yesinaleksey/weatherapp:v2 .'
-                }
-            }
-        }
-
-        stage("docker push") {
-            agent {
-                label "dev"
-            }
-            steps {
-                echo "============== start push container =================="
-                dir ('.') {
-                	sh 'docker push yesinaleksey/weatherapp:v2'
-                }
-                echo "============== start removing container from agent-server =================="
-                dir ('.') {
-                  sh 'docker rmi yesinaleksey/weatherapp:v2 python:3.6.8'
-                }
-            }
-        }
-
-        stage('terraform init') {
-            agent {
-                label "dev"
-            }
-            steps {
-              echo "============== terraform init =================="
-              dir("terraform/"){
-              withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'IAM-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                sh "terraform init"
-              }
-              }
-            }
-        }
-
-        stage('terraform apply') {
-            agent {
-                label "dev"
-            }
-            steps {
-              echo "============== terraform apply =================="
-              dir("terraform/"){
-              withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'IAM-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                sh "terraform apply -auto-approve"
-              }
-              }
-            }
-        }
-     }
+    }
 }
