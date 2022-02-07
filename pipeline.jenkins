@@ -10,7 +10,7 @@ pipeline {
                 branch "feature"
             }
             steps {
-                sh 'git log --format=%s%b -n 1'
+                sh './scripts/chechLength.sh'
             }
         }
     }
