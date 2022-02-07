@@ -10,7 +10,7 @@ pipeline {
                 branch "feature"
             }
             steps {
-                sh './scripts/chechLength.sh'
+                sh './scripts/checkLength.sh'
             }
         }
     }
