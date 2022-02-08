@@ -5,12 +5,23 @@ pipeline {
     }
     stages {
         
-        stage('cat README') {
+        stage('CHECK LENGTH OF COMMIT') {
             when {
                 branch "feature"
             }
             steps {
                 sh './scripts/checkLength.sh'
+            }
+        }
+
+        stage('LINTING DOCKERFILE') {
+            when {
+                branch "feature"
+            }
+            steps {
+                sh 'wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64'
+                sh 'chmod +x /usr/bin/hadolint'
+                sh 'hadolint Dockerfile'
             }
         }
     }
