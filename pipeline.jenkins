@@ -19,9 +19,9 @@ pipeline {
                 branch "feature"
             }
             steps {
-                sh 'wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64'
-                sh 'chmod +x /usr/bin/hadolint'
-                sh 'hadolint Dockerfile'
+                sh 'sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64'
+                sh 'sudo chmod +x /usr/bin/hadolint'
+                sh 'sudo hadolint Dockerfile'
             }
         }
     }
