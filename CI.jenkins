@@ -10,6 +10,15 @@ pipeline {
             }
         }
 
+        stage("Install docker") {
+            steps {
+                echo " ============== Installing docker =================="
+                dir ('.') {
+                	sh 'docker_install.sh'
+                }
+            }
+        }
+
         stage("create docker image") {
             steps {
                 echo " ============== Start building image =================="
