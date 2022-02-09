@@ -30,12 +30,12 @@ pipeline {
         }
 
         stage('GIT MERGE') {
+            when {
+                branch "main"
+            }
             steps {
-                    sh 'git checkout feature'
-                    sh 'git checkout main'
                     sh 'git merge feature'
-                    sh 'git commit -am "Merged feature branch to main"'
-                    sh 'git log -n 1'
+                    sh 'git commit --allow-empty -am "Merged feature branch to main"'
             }
         }
     }
