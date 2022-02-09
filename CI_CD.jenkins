@@ -65,8 +65,8 @@ pipeline {
                 dir ('.') {
                     sh 'sudo chmod +x scripts/docker_deploy.sh'
                 	sh 'sudo ./scripts/docker_deploy.sh'
+                    echo '`curl -s -I http://18.237.98.214:8000/ | head -n 1`'
                 }
-                sh '`curl -s -I http://18.237.98.214:8000/ | head -n 1`'
                 echo '''
                 #############################################################################
                 ################################# FINISH CD ##################################
