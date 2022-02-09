@@ -77,8 +77,8 @@ pipeline {
         stage ("HEALTHCHECK") {
             agent {
                 label "static_slave"
-                sh 'curl -s -I http://18.237.98.214:8000/ | head -n 1 | cut -d$' ' -f2'
             }
+            sh 'curl -s -I http://18.237.98.214:8000/ | head -n 1 | cut -d$' ' -f2'
         }
     }
 }
