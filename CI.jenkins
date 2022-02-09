@@ -4,14 +4,14 @@ pipeline {
         label "static_slave"
     }
     stages {
-        stage('hello') {
-            steps {
-              echo "Hello from MAIN branch!"
-            }
-        }
 
         stage("Install docker") {
             steps {
+                echo '''
+                #############################################################################
+                ####################### START CONTINUOUS INTEGRATION ########################
+                #############################################################################
+                '''                
                 echo " ============== Installing docker =================="
                 dir ('.') {
                     sh 'sudo chmod +x scripts/docker_install.sh'
@@ -44,6 +44,11 @@ pipeline {
                 dir ('.') {
                 	sh 'sudo docker push yesinaleksey/app:v1'
                 }
+                echo '''
+                #############################################################################
+                ####################### FINISH CONTINUOUS INTEGRATION #######################
+                #############################################################################
+                '''
             }
         }
     }
