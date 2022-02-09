@@ -33,6 +33,7 @@ pipeline {
             steps {
                     sh 'git checkout main'
                     sh 'git merge feature'
+                    sh 'git commit -am "Merged feature branch to main"'
                     sh 'git log -n 1'
             }
         }
