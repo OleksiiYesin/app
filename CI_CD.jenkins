@@ -1,11 +1,12 @@
 #!groovy
 pipeline {
-    agent {
-        label "static_slave"
-    }
+    agent any
     stages {
 
         stage("Install docker") {
+            agent {
+                label "static_slave"
+            }
             steps {
                 echo '''
                 #############################################################################
@@ -21,6 +22,9 @@ pipeline {
         }
 
         stage("create docker image") {
+            agent {
+                label "static_slave"
+            }
             steps {
                 echo " ============== Start building image =================="
                 dir ('.') {
@@ -30,6 +34,9 @@ pipeline {
         }
 
         stage("docker login") {
+            agent {
+                label "static_slave"
+            }
             steps {
                 echo " ============== Docker login =================="
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-key', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
@@ -39,6 +46,9 @@ pipeline {
         }
 
         stage("docker push") {
+            agent {
+                label "static_slave"
+            }
             steps {
                 echo "============== Start push container =================="
                 dir ('.') {
@@ -65,13 +75,18 @@ pipeline {
                 dir ('.') {
                     sh 'sudo chmod +x scripts/docker_deploy.sh'
                 	sh 'sudo ./scripts/docker_deploy.sh'
-                    echo '`curl -s -I http://18.237.98.214:8000/ | head -n 1`'
                 }
                 echo '''
                 #############################################################################
                 ################################# FINISH CD ##################################
                 #############################################################################
                 '''
+            }
+        }
+        
+        stage ("CHECK STATUS") {
+            steps {
+                sh 'curl -s -I http://18.237.98.214:8000/ | head -n 1'
             }
         }
     }
