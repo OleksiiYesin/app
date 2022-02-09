@@ -9,5 +9,32 @@ pipeline {
               echo "Hello from MAIN branch!"
             }
         }
+
+        stage("create docker image") {
+            steps {
+                echo " ============== Start building image =================="
+                dir ('.') {
+                	sh 'docker build -t yesinaleksey/app:v1 .'
+                }
+            }
+        }
+
+        stage("docker login") {
+            steps {
+                echo " ============== Docker login =================="
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-key', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                	sh 'docker login -u $USERNAME -p $PASSWORD'
+                }
+            }
+        }
+
+        stage("docker push") {
+            steps {
+                echo "============== Start push container =================="
+                dir ('.') {
+                	sh 'docker push yesinaleksey/app:v1'
+                }
+            }
+        }
     }
 }
