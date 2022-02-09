@@ -29,10 +29,12 @@ pipeline {
             }
         }
 
-        stage('2') {
+        stage('GIT MERGE') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    sh "exit 1"
+                    sh 'git checkout main'
+                    sh 'git merge feature'
+                    sh 'git log -n 1'
                 }
             }
         }
