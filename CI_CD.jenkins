@@ -1,5 +1,8 @@
 #!groovy
 pipeline {
+    agent {
+        label 'static_slave'
+    }
     stages {
 
         stage("Install docker") {
