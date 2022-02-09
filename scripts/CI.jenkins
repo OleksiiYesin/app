@@ -14,7 +14,7 @@ pipeline {
             steps {
                 echo " ============== Installing docker =================="
                 dir ('.') {
-                	sh 'docker_install.sh'
+                	sh './scripts/docker_install.sh'
                 }
             }
         }
