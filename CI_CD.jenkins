@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo " ============== Start building image =================="
                 dir ('.') {
-                	sh 'sudo docker build -t yesinaleksey/app:v1 .'
+                	sh 'sudo docker build -t yesinaleksey/app:v2 .'
                 }
             }
         }
@@ -42,7 +42,7 @@ pipeline {
             steps {
                 echo "============== Start push container =================="
                 dir ('.') {
-                	sh 'sudo docker push yesinaleksey/app:v1'
+                	sh 'sudo docker push yesinaleksey/app:v2'
                 }
                 echo '''
                 #############################################################################
