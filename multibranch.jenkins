@@ -4,7 +4,6 @@ pipeline {
         label "static_slave"
     }
     stages {
-        
         stage('CHECK LENGTH OF COMMIT') {
             when {
                 branch "feature"
@@ -15,7 +14,6 @@ pipeline {
                 sh './scripts/checkLength.sh'
             }
         }
-
         stage('LINTING DOCKERFILE') {
             when {
                 branch "feature"
@@ -28,7 +26,6 @@ pipeline {
                 echo "################################################ FINISH CHECKING #############################################"
             }
         }
-
         stage('GIT MERGE') {
             when {
                 branch "feature"
