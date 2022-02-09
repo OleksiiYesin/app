@@ -1,6 +1,5 @@
 #!groovy
 pipeline {
-    agent any
     stages {
 
         stage("Install docker") {
@@ -85,6 +84,9 @@ pipeline {
         }
         
         stage ("CHECK STATUS") {
+            agent {
+                label 'dynamic_slave'
+            }
             steps {
                 sh 'curl -s -I http://18.237.98.214:8000/ | head -n 1'
             }
