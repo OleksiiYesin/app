@@ -28,5 +28,13 @@ pipeline {
                 echo "################################################ FINISH CHECKING #############################################"
             }
         }
+
+        stage('2') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh "exit 1"
+                }
+            }
+        }
     }
 } 
