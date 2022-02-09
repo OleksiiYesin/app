@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo " ============== Start building image =================="
                 dir ('.') {
-                	sh 'sudo docker build -t yesinaleksey/app:v2 .'
+                	sh 'sudo docker build -t yesinaleksey/app:v1 .'
                 }
             }
         }
@@ -42,7 +42,7 @@ pipeline {
             steps {
                 echo "============== Start push container =================="
                 dir ('.') {
-                	sh 'sudo docker push yesinaleksey/app:v2'
+                	sh 'sudo docker push yesinaleksey/app:v1'
                 }
                 echo '''
                 #############################################################################
@@ -65,7 +65,7 @@ pipeline {
                 dir ('.') {
                     sh 'sudo chmod +x scripts/docker_deploy.sh'
                 	sh 'sudo ./scripts/docker_deploy.sh'
-                    sh "curl -s -I http://18.237.98.214:8000/ | head -n 1 | cut -d${' '} -f2"
+                    sh 'curl -s -I http://18.237.98.214:8000/ | head -n 1'
                 }
                 echo '''
                 #############################################################################
