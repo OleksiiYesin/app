@@ -54,7 +54,7 @@ pipeline {
 
         stage ("docker deploy") {
             agent {
-                label "dynamic_slave"
+                label "static_slave"
             }
             steps {
                 echo '''
